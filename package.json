@@ -4,8 +4,9 @@
   "description": "📚 Parent-Teacher Collaboration Tool\r Reimagining Parent-Teacher Collaboration for 21st Century Learning",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon backend/server.js"
   },
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/adityasr17/Parent-Teacher-Collaboration-Tool.git"
@@ -16,5 +17,13 @@
   "bugs": {
     "url": "https://github.com/adityasr17/Parent-Teacher-Collaboration-Tool/issues"
   },
-  "homepage": "https://github.com/adityasr17/Parent-Teacher-Collaboration-Tool#readme"
+  "homepage": "https://github.com/adityasr17/Parent-Teacher-Collaboration-Tool#readme",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "mongoose": "^8.14.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
 }
