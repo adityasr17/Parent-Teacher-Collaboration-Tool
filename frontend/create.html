@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Account - Parent-Teacher Portal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .register-container {
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .light-theme .register-container {
+      background: white;
+      color: #212529;
+    }
+
+    .dark-theme .register-container {
+      background-color: #1e1e1e;
+      color: #f0f0f0;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .role-selector {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .role-btn {
+      flex: 1;
+      padding: 0.75rem;
+      border: 2px solid #dee2e6;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .light-theme .role-btn {
+      background-color: #f8f9fa;
+    }
+
+    .dark-theme .role-btn {
+      background-color: #2d2d2d;
+      border-color: #444;
+    }
+
+    .role-btn.active {
+      border-color: #0d6efd;
+      background-color: rgba(13, 110, 253, 0.1);
+    }
+
+    .dark-theme .role-btn.active {
+      background-color: rgba(13, 110, 253, 0.2);
+    }
+
+    .role-btn i {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .student-fields {
+      display: none;
+      transition: all 0.3s ease;
+    }
+
+    .password-strength {
+      height: 5px;
+      margin-top: 5px;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    .strength-0 {
+      width: 20%;
+      background-color: #dc3545;
+    }
+
+    .strength-1 {
+      width: 40%;
+      background-color: #fd7e14;
+    }
+
+    .strength-2 {
+      width: 60%;
+      background-color: #ffc107;
+    }
+
+    .strength-3 {
+      width: 80%;
+      background-color: #28a745;
+    }
+
+    .strength-4 {
+      width: 100%;
+      background-color: #20c997;
+    }
+  </style>
+</head>
+<body class="light-theme">
+  <div class="container">
+    <div class="register-container">
+      <h2 class="text-center mb-4">👨‍👩‍👦 Create Account</h2>
+      
+      <div class="role-selector">
+        <div class="role-btn active" onclick="selectRole('student')" id="studentBtn">
+          <i>👨‍🎓</i>
+          <div>Student</div>
+          <input type="radio" name="role" value="student" checked hidden>
+        </div>
+        <div class="role-btn" onclick="selectRole('teacher')" id="teacherBtn">
+          <i>👩‍🏫</i>
+          <div>Teacher</div>
+          <input type="radio" name="role" value="teacher" hidden>
+        </div>
+      </div>
+
+      <form id="registerForm" onsubmit="register(event)">
+        <div class="mb-3">
+          <label for="fullName" class="form-label">Full Name</label>
+          <input type="text" class="form-control" id="fullName" required />
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">Email Address</label>
+          <input type="email" class="form-control" id="email" required />
+        </div>
+
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" required 
+                 oninput="checkPasswordStrength(this.value)" />
+          <div class="password-strength strength-0" id="passwordStrength"></div>
+          <small class="form-text text-muted">Use at least 8 characters with a mix of letters, numbers, and symbols</small>
+        </div>
+
+        <div class="mb-3">
+          <label for="confirmPassword" class="form-label">Confirm Password</label>
+          <input type="password" class="form-control" id="confirmPassword" required />
+        </div>
+
+        <div class="student-fields" id="studentFields">
+          <div class="mb-3">
+            <label for="studentId" class="form-label">Student ID</label>
+            <input type="text" class="form-control" id="studentId" />
+          </div>
+          <div class="mb-3">
+            <label for="grade" class="form-label">Grade/Class</label>
+            <input type="text" class="form-control" id="grade" />
+          </div>
+          <div class="mb-3">
+            <label for="parentName" class="form-label">Parent/Guardian Name</label>
+            <input type="text" class="form-control" id="parentName" />
+          </div>
+        </div>
+
+        <div class="d-grid mb-3">
+          <button type="submit" class="btn btn-primary">Create Account</button>
+        </div>
+
+        <div class="text-center">
+          <span>Already have an account?</span>
+          <a href="login.html" class="btn btn-link p-0">Login here</a>
+        </div>
+      </form>
+
+      <div class="text-end mt-3">
+        <button id="themeToggle" class="btn btn-outline-secondary">🌙</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Role selection
+    function selectRole(role) {
+      document.getElementById('studentBtn').classList.remove('active');
+      document.getElementById('teacherBtn').classList.remove('active');
+      document.getElementById(role + 'Btn').classList.add('active');
+      
+      // Update radio button
+      document.querySelector(`input[value="${role}"]`).checked = true;
+      
+      // Show/hide student fields
+      if (role === 'student') {
+        document.getElementById('studentFields').style.display = 'block';
+      } else {
+        document.getElementById('studentFields').style.display = 'none';
+      }
+    }
+
+    // Password strength checker
+    function checkPasswordStrength(password) {
+      const strengthBar = document.getElementById('passwordStrength');
+      let strength = 0;
+      
+      // Length check
+      if (password.length >= 8) strength++;
+      // Contains numbers
+      if (password.match(/\d/)) strength++;
+      // Contains lowercase
+      if (password.match(/[a-z]/)) strength++;
+      // Contains uppercase
+      if (password.match(/[A-Z]/)) strength++;
+      // Contains special chars
+      if (password.match(/[^a-zA-Z0-9]/)) strength++;
+      
+      // Cap at 4 for our strength meter
+      strength = Math.min(strength, 4);
+      strengthBar.className = `password-strength strength-${strength}`;
+    }
+
+    // Registration function
+    function register(event) {
+      event.preventDefault();
+      
+      // Get form values
+      const role = document.querySelector('input[name="role"]:checked').value;
+      const fullName = document.getElementById('fullName').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      
+      // Validate passwords match
+      if (password !== confirmPassword) {
+        alert("Passwords don't match!");
+        return;
+      }
+      
+      // Create user object
+      const user = {
+        role,
+        fullName,
+        email,
+        password,
+        createdAt: new Date().toISOString()
+      };
+      
+      // Add role-specific fields
+      if (role === 'student') {
+        user.studentId = document.getElementById('studentId').value;
+        user.grade = document.getElementById('grade').value;
+        user.parentName = document.getElementById('parentName').value;
+      }
+      
+      // In a real app, you would send this to your backend
+      console.log('Registering user:', user);
+      
+      // Store in localStorage for demo purposes
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      users.push(user);
+      localStorage.setItem('users', JSON.stringify(users));
+      
+      alert('Account created successfully! Redirecting to login...');
+      setTimeout(() => {
+        window.location.href = 'login.html';
+      }, 1500);
+    }
+
+    // Theme toggle functionality
+    function toggleTheme() {
+      const body = document.body;
+      const themeBtn = document.getElementById("themeToggle");
+      
+      body.classList.toggle("dark-theme");
+      body.classList.toggle("light-theme");
+      
+      // Save preference to localStorage
+      const isDark = body.classList.contains("dark-theme");
+      localStorage.setItem("darkMode", isDark);
+      
+      // Update button icon
+      themeBtn.textContent = isDark ? "🌞" : "🌙";
+    }
+
+    // Initialize theme
+    function initTheme() {
+      const savedTheme = localStorage.getItem("darkMode") === "true";
+      const body = document.body;
+      const themeBtn = document.getElementById("themeToggle");
+      
+      if (savedTheme) {
+        body.classList.add("dark-theme");
+        body.classList.remove("light-theme");
+        themeBtn.textContent = "🌞";
+      } else {
+        body.classList.add("light-theme");
+        body.classList.remove("dark-theme");
+        themeBtn.textContent = "🌙";
+      }
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      initTheme();
+      document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+      
+      // Show student fields by default since student is default role
+      document.getElementById('studentFields').style.display = 'block';
+    });
+  </script>
+</body>
+</html>

@@ -166,6 +166,28 @@ function openChat() {
   chatModal.show();
 }
 
+// Example: Fetch announcements from backend and render in the UI
+async function fetchAnnouncements() {
+  try {
+    const res = await fetch('/api/announcements');
+    const data = await res.json();
+    if (data.success && Array.isArray(data.data)) {
+      const list = document.getElementById('announcementList');
+      if (list) {
+        list.innerHTML = '';
+        data.data.slice(0, 5).forEach(announcement => {
+          const li = document.createElement('li');
+          li.className = 'list-group-item';
+          li.innerHTML = `<strong>${announcement.teacher?.name || 'Teacher'}</strong> (${new Date(announcement.createdAt).toLocaleDateString()}):<div>${announcement.message}</div>`;
+          list.appendChild(li);
+        });
+      }
+    }
+  } catch (err) {
+    console.error('Failed to fetch announcements:', err);
+  }
+}
+
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
   // Add event listeners
@@ -174,6 +196,11 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize components
   initTheme();
   renderMessages();
+
+  // Call fetchAnnouncements on page load (if announcementList exists)
+  if (document.getElementById('announcementList')) {
+    fetchAnnouncements();
+  }
 });
 
 function initTheme() {
