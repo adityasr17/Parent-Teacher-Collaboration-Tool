@@ -1,5 +1,5 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
   line-height: 1.6;
@@ -7,13 +7,13 @@ body {
 }
 
 .light-theme {
-  background-color: #e6f2ff;
-  color: #000;
+  background-color: #f8f9fa;
+  color: #212529;
 }
 
 .dark-theme {
-  background-color: #0b1d3a;
-  color: #f0f0f0;
+  background-color: #121212;
+  color: #f8f9fa;
 }
 
 header, nav {
@@ -21,33 +21,238 @@ header, nav {
 }
 
 .light-theme header {
-  background-color: #007bff;
+  background-color: #0d6efd;
 }
 
 .dark-theme header {
-  background-color: #002752;
+  background-color: #0a58ca;
 }
 
 .light-theme nav {
-  background-color: #d9ecff;
+  background-color: #ffffff;
 }
 
 .dark-theme nav {
-  background-color: #1c3d63;
-}
-
-.tab {
-  transition: transform 0.2s ease-in-out;
-}
-
-.tab:hover {
-  transform: scale(1.012);
+  background-color: #1a1a1a;
 }
 
 .card {
-  transition: box-shadow 0.3s;
+  transition: all 0.3s ease;
+  border: none;
 }
 
-.card:hover {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+.light-theme .card {
+  background-color: #ffffff;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.dark-theme .card {
+  background-color: #1e1e1e;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
+}
+
+.light-theme .list-group-item {
+  background-color: #f8f9fa;
+}
+
+.dark-theme .list-group-item {
+  background-color: #2d2d2d;
+  color: #f8f9fa;
+  border-color: #444;
+}
+
+.btn-outline-primary {
+  transition: all 0.3s ease;
+}
+
+/* Section animations */
+.animate {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Message styling */
+#messagesBox, #chatMessages {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.dark-theme #messagesBox, 
+.dark-theme #chatMessages {
+  background-color: #2d2d2d;
+}
+
+.message {
+  margin-bottom: 10px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  max-width: 80%;
+  word-wrap: break-word;
+}
+
+.message.sent {
+  background-color: #0d6efd;
+  color: white;
+  margin-left: auto;
+  border-bottom-right-radius: 0;
+}
+
+.message.received {
+  background-color: #e9ecef;
+  margin-right: auto;
+  border-bottom-left-radius: 0;
+}
+
+.dark-theme .message.received {
+  background-color: #333;
+  color: #f8f9fa;
+}
+
+.message-time {
+  font-size: 0.75rem;
+  color: #6c757d;
+  margin-top: 2px;
+}
+
+.dark-theme .message-time {
+  color: #adb5bd;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.dark-theme ::-webkit-scrollbar-track {
+  background: #2d2d2d;
+}
+
+.dark-theme ::-webkit-scrollbar-thumb {
+  background: #555;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .navbar-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .navbar-nav .btn {
+    margin: 5px;
+    font-size: 0.9rem;
+  }
+  
+  #marksChart {
+    margin-top: 20px;
+  }
+}
+
+/* Update dark theme text colors */
+.dark-theme {
+  background-color: #121212;
+  color: #e0e0e0; /* Brighter text for better visibility */
+}
+
+.dark-theme .card {
+  background-color: #1e1e1e;
+  color: #ffffff; /* Pure white for card text */
+  border-color: #444;
+}
+
+.dark-theme .list-group-item {
+  background-color: #2d2d2d;
+  color: #ffffff; /* Pure white for list items */
+  border-color: #444;
+}
+
+.dark-theme .btn-outline-primary {
+  color: #90caf9;
+  border-color: #90caf9;
+}
+
+.dark-theme .btn-outline-primary:hover {
+  background-color: #0d47a1;
+  color: white;
+}
+
+/* Update modal text colors */
+.dark-theme .modal-content {
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+
+.dark-theme .modal-header,
+.dark-theme .modal-footer {
+  border-color: #444;
+}
+
+/* Update chart text colors */
+.dark-theme .chartjs-render-monitor {
+  color: #ffffff !important;
+}
+
+/* Update all text elements */
+.dark-theme h1,
+.dark-theme h2,
+.dark-theme h3,
+.dark-theme h4,
+.dark-theme h5,
+.dark-theme h6,
+.dark-theme p,
+.dark-theme li,
+.dark-theme td,
+.dark-theme th,
+.dark-theme label {
+  color: #ffffff !important;
+}
+
+/* Update input fields */
+.dark-theme .form-control {
+  background-color: #2d2d2d;
+  color: #ffffff;
+  border-color: #444;
+}
+
+.dark-theme .form-control:focus {
+  background-color: #2d2d2d;
+  color: #ffffff;
+  border-color: #90caf9;
+  box-shadow: 0 0 0 0.25rem rgba(144, 202, 249, 0.25);
+}
+
+/* Update card titles specifically */
+.dark-theme .card-title {
+  color: #ffffff !important;
+}
+
+/* Update announcement list items */
+.dark-theme #announcementList li {
+  color: #ffffff !important;
+}
+
+/* Update meeting list items */
+.dark-theme #meetings ul li {
+  color: #ffffff !important;
 }

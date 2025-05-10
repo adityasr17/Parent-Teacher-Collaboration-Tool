@@ -10,21 +10,98 @@
     .login-container {
       max-width: 400px;
       margin: 100px auto;
-      background: white;
       padding: 2rem;
       border-radius: 10px;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
     }
-    body.dark-theme .login-container {
+
+    .light-theme .login-container {
+      background: white;
+      color: #212529;
+    }
+
+    .dark-theme .login-container {
       background-color: #1e1e1e;
       color: #f0f0f0;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .role-selector {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .role-btn {
+      flex: 1;
+      padding: 0.75rem;
+      border: 2px solid #dee2e6;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .light-theme .role-btn {
+      background-color: #f8f9fa;
+    }
+
+    .dark-theme .role-btn {
+      background-color: #2d2d2d;
+      border-color: #444;
+    }
+
+    .role-btn.active {
+      border-color: #0d6efd;
+      background-color: rgba(13, 110, 253, 0.1);
+    }
+
+    .dark-theme .role-btn.active {
+      background-color: rgba(13, 110, 253, 0.2);
+    }
+
+    .role-btn i {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .demo-credentials {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+
+    .light-theme .demo-credentials {
+      background-color: #f8f9fa;
+    }
+
+    .dark-theme .demo-credentials {
+      background-color: #2d2d2d;
     }
   </style>
 </head>
 <body class="light-theme">
   <div class="container">
     <div class="login-container">
-      <h2 class="text-center mb-4">👨‍👩‍👦 Login</h2>
+      <h2 class="text-center mb-4">👨‍👩‍👦 Parent-Teacher Portal</h2>
+      <h4 class="text-center mb-4">Login</h4>
+      
+      <div class="role-selector">
+        <div class="role-btn active" onclick="selectRole('student')" id="studentBtn">
+          <i>👨‍🎓</i>
+          <div>Student</div>
+          <input type="radio" name="role" value="student" checked hidden>
+        </div>
+        <div class="role-btn" onclick="selectRole('teacher')" id="teacherBtn">
+          <i>👩‍🏫</i>
+          <div>Teacher</div>
+          <input type="radio" name="role" value="teacher" hidden>
+        </div>
+      </div>
+
       <form onsubmit="login(event)">
         <div class="mb-3">
           <label for="username" class="form-label">Username</label>
@@ -38,26 +115,76 @@
           <button type="submit" class="btn btn-primary">Login</button>
         </div>
       </form>
+
+      <div class="demo-credentials">
+        <strong>Demo Credentials:</strong>
+        <div id="studentCreds">Student: student / 1234</div>
+        <div id="teacherCreds" class="mt-1">Teacher: teacher / 5678</div>
+      </div>
+
       <div class="text-end mt-3">
         <button id="themeToggle" class="btn btn-outline-secondary">🌙</button>
+      </div>
+      <div class="text-center mt-3">
+        <span>Don't have an account?</span>
+        <a href="register.html" class="btn btn-link p-0">Create Account</a>
       </div>
     </div>
   </div>
 
   <script src="script.js"></script>
   <script>
+    // Role selection
+    function selectRole(role) {
+      document.getElementById('studentBtn').classList.remove('active');
+      document.getElementById('teacherBtn').classList.remove('active');
+      document.getElementById(role + 'Btn').classList.add('active');
+      
+      // Update radio button
+      document.querySelector(`input[value="${role}"]`).checked = true;
+      
+      // Update demo credentials visibility
+      if (role === 'student') {
+        document.getElementById('studentCreds').style.display = 'block';
+        document.getElementById('teacherCreds').style.display = 'none';
+      } else {
+        document.getElementById('studentCreds').style.display = 'none';
+        document.getElementById('teacherCreds').style.display = 'block';
+      }
+    }
+
+    // Login function
     function login(event) {
       event.preventDefault();
       const username = document.getElementById("username").value;
       const password = document.getElementById("password").value;
+      const role = document.querySelector('input[name="role"]:checked').value;
+
+      // Simple validation
+      if (!username || !password) {
+        alert("Please enter both username and password");
+        return;
+      }
 
       // Simulate login check (for demonstration)
-      if (username === "parent" && password === "1234") {
-        window.location.href = "index.html";
+      if (role === "student" && username === "student" && password === "1234") {
+        localStorage.setItem('userRole', 'student');
+        window.location.href = "student_index.html";
+      } else if (role === "teacher" && username === "teacher" && password === "5678") {
+        localStorage.setItem('userRole', 'teacher');
+        window.location.href = "teacher_index.html";
       } else {
-        alert("Invalid credentials. Try 'parent' and '1234'.");
+        alert("Invalid credentials. Try the demo credentials shown below.");
       }
     }
+
+    // Initialize theme
+    document.addEventListener('DOMContentLoaded', function() {
+      initTheme();
+      
+      // Set initial demo credentials visibility
+      document.getElementById('teacherCreds').style.display = 'none';
+    });
   </script>
 </body>
 </html>

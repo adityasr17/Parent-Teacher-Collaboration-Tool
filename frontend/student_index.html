@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parent-Teacher Collaboration</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="light-theme">
+
+  <header class="d-flex justify-content-between align-items-center p-4 bg-primary text-white shadow-sm">
+    <h1 class="h3 m-0">👨‍👩‍👦 Parent-Teacher Portal</h1>
+    <button id="themeToggle" class="btn btn-outline-light">🌙</button>
+  </header>
+
+
+
+  <main class="container py-5">
+    <section id="announcements" class="active mb-4 animate">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h2 class="card-title">📢 Announcements</h2>
+          <ul class="list-unstyled mt-3" id="announcementList">
+            <li><strong>May 10:</strong> Final exams start June 1.</li>
+            <li><strong>May 9:</strong> Field trip on May 20.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="progress" class="mb-4 animate">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h2 class="card-title">📘 Academic Progress</h2>
+          <div class="row">
+            <div class="col-md-6 mb-4 mb-md-0">
+              <p><strong>Name:</strong> Aarav Sharma</p>
+              <p><strong>Class:</strong> 8B</p>
+              <p><strong>Email:</strong> aarav.sharma@example.com</p>
+              <p><strong>Phone:</strong> +91 98765 43210</p>
+              <ul class="list-group list-group-flush mt-3">
+                <li class="list-group-item">Math: 88%</li>
+                <li class="list-group-item">Science: 91%</li>
+                <li class="list-group-item">English: 85%</li>
+              </ul>
+            </div>
+            <div class="col-md-6 d-flex justify-content-center align-items-center">
+              <canvas id="marksChart" width="300" height="200"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="messages" class="mb-4 animate">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h2 class="card-title">💬 Messages</h2>
+          <div id="messagesBox" class="p-3 rounded border mb-3" style="min-height: 200px; max-height: 300px; overflow-y: auto;"></div>
+          <div class="input-group">
+            <input type="text" id="messageInput" class="form-control" placeholder="Type your message..." />
+            <button class="btn btn-primary" onclick="sendMessage()">Send</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="meetings" class="mb-4 animate">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h2 class="card-title">📅 Upcoming Meetings</h2>
+          <ul class="list-unstyled mt-3">
+            <li><strong>May 15, 10:00 AM</strong> – Parent-Teacher conference</li>
+            <li><strong>May 25, 3:00 PM</strong> – Counseling session</li>
+          </ul>
+          <button class="btn btn-primary mt-3" onclick="scheduleMeeting()">Schedule New Meeting</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Chat Modal -->
+  <div class="modal fade" id="chatModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Chat with Teacher</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="chatMessages" class="mb-3 p-3 rounded" style="height: 300px; overflow-y: auto;"></div>
+          <div class="input-group">
+            <input type="text" id="chatInput" class="form-control" placeholder="Type your message...">
+            <button class="btn btn-primary" onclick="sendChatMessage()">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+  <script>
+    // Initialize chart
+    const ctx = document.getElementById('marksChart').getContext('2d');
+    const marksChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Math', 'Science', 'English'],
+        datasets: [{
+          label: 'Marks (%)',
+          data: [88, 91, 85],
+          backgroundColor: ['#4a90e2', '#66bb6a', '#ffca28']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100
+          }
+        }
+      }
+    });
+
+    // Initialize theme and messages
+    document.addEventListener('DOMContentLoaded', function() {
+      initTheme();
+      renderMessages();
+      renderChatMessages();
+    });
+  </script>
+  
+</body>
+</html>
