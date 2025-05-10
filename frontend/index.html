@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parent-Teacher Collaboration</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="light-theme">
+  <header class="p-3">
+    <h1>👨‍👩‍👦 Parent-Teacher Portal</h1>
+    <button id="themeToggle" class="btn btn-outline-light">🌙</button>
+  </header>
+
+  <main class="p-4">
+    <section id="announcements" class="active">
+      <h2>📢 Announcements</h2>
+      <ul class="bg-body-tertiary p-3 rounded">
+        <li><strong>May 10:</strong> Final exams start June 1.</li>
+        <li><strong>May 9:</strong> Field trip on May 20.</li>
+      </ul>
+    </section>
+
+    <section id="progress">
+      <h2>📘 Academic Progress</h2>
+      <p><strong>Student:</strong> Aarav Sharma</p>
+      <ul class="bg-body-tertiary p-3 rounded">
+        <li>Math: 88%</li>
+        <li>Science: 91%</li>
+        <li>English: 85%</li>
+      </ul>
+      <canvas id="marksChart" height="200"></canvas>
+    </section>
+
+    <section id="messages">
+      <h2>💬 Messages</h2>
+      <div id="messagesBox" class="bg-body-tertiary p-3 rounded"></div>
+      <div class="input-group mt-3">
+        <input type="text" id="messageInput" class="form-control" placeholder="Type your message..." />
+        <button class="btn btn-primary" onclick="sendMessage()">Send</button>
+      </div>
+    </section>
+
+    <section id="meetings">
+      <h2>📅 Upcoming Meetings</h2>
+      <ul class="bg-body-tertiary p-3 rounded">
+        <li>May 15, 10:00 AM – Parent-Teacher conference</li>
+        <li>May 25, 3:00 PM – Counseling session</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+  <script>
+    const ctx = document.getElementById('marksChart').getContext('2d');
+    const marksChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Math', 'Science', 'English'],
+        datasets: [{
+          label: 'Marks (%)',
+          data: [88, 91, 85],
+          backgroundColor: ['#4a90e2', '#66bb6a', '#ffca28']
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

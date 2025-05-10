@@ -1,0 +1,53 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.light-theme {
+  background-color: #e6f2ff;
+  color: #000;
+}
+
+.dark-theme {
+  background-color: #0b1d3a;
+  color: #f0f0f0;
+}
+
+header, nav {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.light-theme header {
+  background-color: #007bff;
+}
+
+.dark-theme header {
+  background-color: #002752;
+}
+
+.light-theme nav {
+  background-color: #d9ecff;
+}
+
+.dark-theme nav {
+  background-color: #1c3d63;
+}
+
+.tab {
+  transition: transform 0.2s ease-in-out;
+}
+
+.tab:hover {
+  transform: scale(1.012);
+}
+
+.card {
+  transition: box-shadow 0.3s;
+}
+
+.card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
